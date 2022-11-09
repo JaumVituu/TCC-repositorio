@@ -37,12 +37,10 @@ public class Jogador
 
     public void Cair(CharacterController controller, GameObject player){
         if(controller.isGrounded == false){
-            Debug.Log("Não tá no chão");
             gravidade += 20f*Time.deltaTime; 
             controller.Move(-player.transform.up*gravidade*Time.deltaTime);
         }
         if(controller.isGrounded){
-            Debug.Log("Está no chão");
             gravidade = 7.5f;
         }
     }

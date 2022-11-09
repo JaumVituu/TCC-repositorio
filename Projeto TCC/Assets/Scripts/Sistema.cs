@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Sistema : MonoBehaviour
 {
     bool turnoDaEquipe;
     public float tempoTurno;
     public float parOuImpar;
+    [SerializeField] Text Municao;
+    [SerializeField] GameObject Arma;
 
     void Start()
     {
@@ -31,6 +34,8 @@ public class Sistema : MonoBehaviour
         else{
             tempoTurno -= Time.deltaTime;
         }
+
+        Municao.text = "Munição: " + Arma.GetComponent<Arma>().municaoAtual.ToString() + "/" + Arma.GetComponent<Arma>().municaoRestante.ToString();
 
     }
 }
