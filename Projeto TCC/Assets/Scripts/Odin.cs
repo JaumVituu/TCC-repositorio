@@ -66,6 +66,8 @@ public class Odin : MonoBehaviour
         if (corvoUsado){  
             if(tipoVoo == 0){
                 if(tempoVoo >= 0f){
+                    armaVisivel = false;
+                    vooTerminou = false;
                     //direcaoCorvo = habilidadeCorvo.transform.forward + habilidadeCorvo.transform.right;
                     habilidadeCorvo.transform.Translate(0,0,5*Time.deltaTime,Space.Self);
                     //habilidadeCorvo.GetComponent<Rigidbody>().velocity = direcaoCorvo*velCorvo;
@@ -75,6 +77,7 @@ public class Odin : MonoBehaviour
                 }
                 else{
                     corvoDisponivel = true;
+                    vooTerminou = true;
                 }
             }          
             if(tipoVoo == 1){

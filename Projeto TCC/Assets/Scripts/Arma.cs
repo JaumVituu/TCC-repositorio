@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Arma : MonoBehaviour
 {
@@ -12,6 +13,10 @@ public class Arma : MonoBehaviour
     public GameObject objetoTiro;
     float recargaTiro;
     [SerializeField] float recargaInicial;
+    [SerializeField] VisualEffect Muzzle;
+    [SerializeField] Animator armaAnim;
+    [SerializeField] Animator molaAnim;
+
     
 
     void Start()
@@ -41,11 +46,16 @@ public class Arma : MonoBehaviour
             }
             if(Input.GetMouseButtonUp(0)){
                 recargaTiro = 0f;
+                armaAnim.SetBool("Atirando",false);
+                molaAnim.SetBool("Atirando",false);
             }     
         }
     }
 
     bool Atirar(){
+        armaAnim.SetBool("Atirando",true);
+        molaAnim.SetBool("Atirando",true);
+        Muzzle.Play();
         GameObject Tiro = Instantiate(objetoTiro, emissorTiro.position, emissorTiro.rotation);
         float x = Screen.width / 2;
         float y = Screen.height / 2;
