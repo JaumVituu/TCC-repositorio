@@ -54,7 +54,6 @@ public class Arma : MonoBehaviour
                             if (taxaTiro <= 0){              
                                 if(Atirar()){
                                     armaAnim.SetBool("Parou de atirar", false);
-                                    Debug.Log("A");
                                     taxaTiro = taxaInicial;
                                 }
                             }
@@ -74,7 +73,6 @@ public class Arma : MonoBehaviour
                             
                                 if(Atirar()){
                                     armaAnim.SetBool("Parou de atirar", false);
-                                    Debug.Log("A");
                                     taxaTiro = taxaInicial;
                                     armaAnim.SetBool("Parou de atirar", true);
                                     spray = 0;
@@ -117,7 +115,7 @@ public class Arma : MonoBehaviour
              
         var ray = cam.ScreenPointToRay(new Vector3(x, y, 0));
         if(spray > 0 && spray < 13){
-            cameraAtribuida.rotation += new Vector3(0, spray*coiceCoeficiente, 0);
+            cameraAtribuida.eulerAngles += new Vector3(0, spray*coiceCoeficiente, 0);
             ray.direction += new Vector3(0,spray*coiceCoeficiente,0);
         }
         
@@ -141,5 +139,6 @@ public class Arma : MonoBehaviour
         municaoAtual = municaoInicial;
         recarregou = true;
         podeAtirar = true;
+        spray = 0;
     }
 }
