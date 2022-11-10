@@ -35,7 +35,7 @@ public class Sistema : MonoBehaviour
             tempoTurno -= Time.deltaTime;
         }
 
-        Municao.text = "Munição: " + Arma.GetComponent<Arma>().municaoAtual.ToString() + "/" + Arma.GetComponent<Arma>().municaoRestante.ToString();
+        Municao.text = "Munição: " + Arma.GetComponent<Arma>().municaoAtual.ToString() + "/" + Arma.GetComponent<Arma>().municaoInicial.ToString();
 
     }
 }

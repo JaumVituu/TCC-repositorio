@@ -62,15 +62,13 @@ public class Odin : MonoBehaviour
             Personagem.MudarVisibilidadeArma(Arma);
             armaVisivel = true;
         }
-        rotacaoCorvo = /*transform.rotation */ cameraJogador.transform.rotation;       
+        rotacaoCorvo = cameraJogador.transform.rotation;       
         if (corvoUsado){  
             if(tipoVoo == 0){
                 if(tempoVoo >= 0f){
                     armaVisivel = false;
                     vooTerminou = false;
-                    //direcaoCorvo = habilidadeCorvo.transform.forward + habilidadeCorvo.transform.right;
                     habilidadeCorvo.transform.Translate(0,0,5*Time.deltaTime,Space.Self);
-                    //habilidadeCorvo.GetComponent<Rigidbody>().velocity = direcaoCorvo*velCorvo;
                     cameraCorvo = habilidadeCorvo.transform.GetChild(0);
                     cameraCorvo.GetComponent<Camera>().enabled = false;
                     tempoVoo -= Time.deltaTime;
@@ -86,24 +84,9 @@ public class Odin : MonoBehaviour
                     vooTerminou = false;
                     habilidadeCorvo.transform.Translate(0,0,10*Time.deltaTime,Space.Self);
                     direcaoCorvo = habilidadeCorvo.transform.forward + habilidadeCorvo.transform.right;
-                    //habilidadeCorvo.GetComponent<Rigidbody>().velocity = direcaoCorvo*velCorvo;
                     cameraCorvo = habilidadeCorvo.transform.GetChild(0);
                     cameraCorvo.GetComponent<Camera>().enabled = false;
                     tempoVoo -= Time.deltaTime;
-                    /*if(MouseY <= 90f && MouseY >= -90f){
-                        MouseY += Input.GetAxis("Mouse Y");        
-                    }
-                    if(MouseY >= 90f && Mathf.Abs(Input.GetAxis("Mouse Y"))/-Input.GetAxis("Mouse Y") == 1){
-                        MouseY += Input.GetAxis("Mouse Y");
-                    }
-      
-                    if(MouseY <= -90f && Mathf.Abs(Input.GetAxis("Mouse Y"))/-Input.GetAxis("Mouse Y") == -1){
-                        MouseY += Input.GetAxis("Mouse Y");
-                    }
-
-                    MouseX += Input.GetAxis("Mouse X")*2;
-
-                    habilidadeCorvo.transform.eulerAngles = new Vector3(-MouseY,MouseX,0);*/
                     habilidadeCorvo.transform.eulerAngles = cameraJogador.transform.rotation.eulerAngles;
                 }
                 else{

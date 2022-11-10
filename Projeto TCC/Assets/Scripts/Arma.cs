@@ -5,13 +5,10 @@ using UnityEngine.VFX;
 
 public class Arma : MonoBehaviour
 {
-    //Arma m16 = new Arma("M16", 1.0f, 30);
     bool noChao;
     bool estaEquipada;
-    [SerializeField]int municaoAtualInicial;
-    [SerializeField]int municaoRestanteInicial;
+    public int municaoInicial;
     public int municaoAtual;
-    public int municaoRestante;
     public Transform emissorTiro;
     public GameObject objetoTiro;
     float taxaTiro;
@@ -22,28 +19,31 @@ public class Arma : MonoBehaviour
     [SerializeField] Animator armaAnim;
     [SerializeField] bool armaAutomatica;
     [SerializeField] float tempoRecarga;
+    bool recarregou;
+    [SerializeField]float coiceCoeficiente;
+    int spray;
+    Transform cameraAtribuida;
 
     
 
     void Start()
     {
         noChao = false;
-        taxaTiro = 0.2f;
         estaEquipada = true;
         taxaTiro = 0;
-        Debug.Log(transform.parent.name);
         armaAnim.SetBool("Parou de atirar", true);
-        municaoAtual = municaoAtualInicial;
-        municaoRestante = municaoRestanteInicial;
+        municaoAtual = municaoInicial;
         podeAtirar = true;
+        recarregou = true;
+
     }
 
     void OnEnable(){
         armaAnim.SetBool("Parou de atirar", true);
     }
 
-    void Update()
-    {
+    void Update(){
+        cameraAtribuida = transform.parent;
         if(!noChao){
         }
         if(estaEquipada){
@@ -65,6 +65,7 @@ public class Arma : MonoBehaviour
                         if(Input.GetMouseButtonUp(0)){
                             taxaTiro = 0f;
                             armaAnim.SetBool("Parou de atirar", true);
+                            spray = 0;
                         }   
                     }
                     else{
@@ -76,6 +77,7 @@ public class Arma : MonoBehaviour
                                     Debug.Log("A");
                                     taxaTiro = taxaInicial;
                                     armaAnim.SetBool("Parou de atirar", true);
+                                    spray = 0;
                                 }
                             }
                             else{
@@ -92,11 +94,14 @@ public class Arma : MonoBehaviour
         }
     }
     void FixedUpdate(){
-        if(municaoRestante > 0 && municaoAtual == 0){
-            StartCoroutine(Recarga());
+        if(municaoInicial > 0 && municaoAtual == 0 && recarregou){
+            StartCoroutine(Recarregar());
         }
         if(municaoAtual <= 0 ){
             municaoAtual = 0;
+        }
+        if(Input.GetKey(KeyCode.R)){
+            StartCoroutine(Recarregar());
         }
     }
 
@@ -111,34 +116,30 @@ public class Arma : MonoBehaviour
         Camera cam = transform.parent.GetComponent<Camera>();
              
         var ray = cam.ScreenPointToRay(new Vector3(x, y, 0));
+        if(spray > 0 && spray < 13){
+            cameraAtribuida.rotation += new Vector3(0, spray*coiceCoeficiente, 0);
+            ray.direction += new Vector3(0,spray*coiceCoeficiente,0);
+        }
         
         Tiro.GetComponent<Rigidbody>().velocity = ray.direction * 150;
-        Destroy(Tiro, 0.5f);
+        Destroy(Tiro, 2f);
         municaoAtual -= 1;
+        spray += 1;
 
         return true;
     }
 
-    public void OnCollisionEnter(Collision collision){
+    void OnCollisionEnter(Collision collision){
 
     }
 
-    IEnumerator Recarga(){
-        qtdeRecarga = municaoAtualInicial - municaoAtual;
-        if(municaoRestante >= municaoAtualInicial){
-            municaoAtual = municaoAtualInicial;
-            municaoRestante -= qtdeRecarga;
-        }
-        if(municaoRestante < municaoAtualInicial){
-            municaoAtual = municaoRestante;
-            municaoRestante -= qtdeRecarga;
-        }
-        if(municaoRestante - qtdeRecarga <= 0){
-            municaoAtual = municaoRestante;
-            municaoRestante = 0;
-        }
+    IEnumerator Recarregar(){
+        armaAnim.SetBool("Parou de atirar", true);
+        podeAtirar = false;
+        recarregou = false;
+        yield return new WaitForSeconds(tempoRecarga);
+        municaoAtual = municaoInicial;
+        recarregou = true;
         podeAtirar = true;
-        qtdeRecarga = 0;
-        return null;
     }
 }
