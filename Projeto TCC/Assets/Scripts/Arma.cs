@@ -124,7 +124,6 @@ public class Arma : MonoBehaviour
     }
 
     IEnumerator Recarga(){
-        yield return new WaitForSeconds(tempoRecarga);
         qtdeRecarga = municaoAtualInicial - municaoAtual;
         if(municaoRestante >= municaoAtualInicial){
             municaoAtual = municaoAtualInicial;
@@ -140,5 +139,6 @@ public class Arma : MonoBehaviour
         }
         podeAtirar = true;
         qtdeRecarga = 0;
+        return null;
     }
 }
