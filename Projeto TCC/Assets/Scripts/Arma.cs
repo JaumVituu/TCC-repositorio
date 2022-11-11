@@ -16,18 +16,22 @@ public class Arma : MonoBehaviour
     int qtdeRecarga;
     [SerializeField] float taxaInicial;
     [SerializeField] VisualEffect Muzzle;
-    [SerializeField] Animator armaAnim;
+    public Animator armaAnim;
     [SerializeField] bool armaAutomatica;
     [SerializeField] float tempoRecarga;
     bool recarregou;
     [SerializeField]float coiceCoeficiente;
+    [SerializeField]int multCoice;
     int spray;
     Transform cameraAtribuida;
+    public Vector2 recuoEsperado;
+    public Vector2 recuoAtual;
 
     
 
     void Start()
     {
+        armaAnim.SetFloat("VelocidadeTiro",0.1f/taxaInicial);
         noChao = false;
         estaEquipada = true;
         taxaTiro = 0;
@@ -35,7 +39,7 @@ public class Arma : MonoBehaviour
         municaoAtual = municaoInicial;
         podeAtirar = true;
         recarregou = true;
-
+        coiceCoeficiente *= multCoice;
     }
 
     void OnEnable(){
@@ -92,6 +96,7 @@ public class Arma : MonoBehaviour
         }
     }
     void FixedUpdate(){
+        recuoAtual = Vector2.Lerp(recuoEsperado, new Vector2(0,0), 0.7f);
         if(municaoInicial > 0 && municaoAtual == 0 && recarregou){
             StartCoroutine(Recarregar());
         }
@@ -112,11 +117,12 @@ public class Arma : MonoBehaviour
         float y = Screen.height / 2;
 
         Camera cam = transform.parent.GetComponent<Camera>();
+        Debug.Log(cam.name);
              
         var ray = cam.ScreenPointToRay(new Vector3(x, y, 0));
-        if(spray > 0 && spray < 13){
-            cameraAtribuida.eulerAngles += new Vector3(0, spray*coiceCoeficiente, 0);
-            ray.direction += new Vector3(0,spray*coiceCoeficiente,0);
+        if (spray < 13){
+            
+            recuoEsperado = new Vector2(spray*coiceCoeficiente,0);
         }
         
         Tiro.GetComponent<Rigidbody>().velocity = ray.direction * 150;

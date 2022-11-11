@@ -6,12 +6,13 @@ public class Jogador
 {
     int vida = 100;
     public string name;
-    float MouseY, MouseX;
+    public float MouseY, MouseX;
     public float speed;
     Camera camera;
     private CharacterController charCont;
     Transform transf;
     float gravidade;
+
     
 
     public Jogador(string objectName){
@@ -49,7 +50,7 @@ public class Jogador
         Arma.gameObject.SetActive(!Arma.gameObject.activeSelf);
     }
 
-    public void MovimentaMouse(GameObject player, Camera playerCam, CharacterController controller){
+    public void MovimentaMouse(GameObject player, Camera playerCam, CharacterController controller, Vector2 recuo){
         camera = playerCam;
         charCont = controller;
         transf = player.transform;
@@ -68,7 +69,7 @@ public class Jogador
 
         MouseX += Input.GetAxis("Mouse X")*2;
         //Debug.Log("X = "+MouseY+", Y = "+MouseX);
-        charCont.transform.eulerAngles = new Vector3(0f,MouseX,0f);
-        camera.transform.eulerAngles = player.transform.eulerAngles + new Vector3(-MouseY,-90f,0f);
+        charCont.transform.eulerAngles = new Vector3(0f ,MouseX + recuo.y,0f);
+        camera.transform.eulerAngles = player.transform.eulerAngles + new Vector3(-MouseY + -recuo.x,-90f,0f);
     }
 }

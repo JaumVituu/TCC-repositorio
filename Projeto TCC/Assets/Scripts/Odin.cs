@@ -7,7 +7,7 @@ public class Odin : MonoBehaviour
 {
     Jogador Personagem = new Jogador("Odin");
     bool temArma;
-    [SerializeField] GameObject Arma;
+    public Transform Arma;
     public Camera cameraJogador;
     public GameObject Corvo;
     public bool segurandoCorvo;
@@ -28,6 +28,7 @@ public class Odin : MonoBehaviour
     Vector3 direcaoCorvo;
     public float velCorvo;
     bool armaVisivel;
+    public Vector2 recuoArma;
     //public bool EquipeAtual;
 
     void Start()
@@ -41,6 +42,7 @@ public class Odin : MonoBehaviour
         corvoDisponivel = false;
         temArma = true;
         armaVisivel = true;
+
     }
 
 
@@ -50,16 +52,20 @@ public class Odin : MonoBehaviour
         //if(Sistema.GetComponent<Sistema>().turnoDaEquipe == EquipeAtual)
             if(cameraJogador.GetComponent<Camera>().enabled == true){
                 Personagem.Movimenta(gameObject,charController, velocidade);
-                Personagem.MovimentaMouse(gameObject,cameraJogador,charController);
             }
         //}
+        Personagem.MovimentaMouse(gameObject,cameraJogador,charController, recuoArma);
+        Arma = cameraJogador.transform.GetChild(0);
+        if(Arma.gameObject.tag == "Arma"){
+            recuoArma = Arma.gameObject.GetComponent<Arma>().recuoAtual;
+        }
         UsarCorvo();
     }
     
 
     void UsarCorvo(){
         if(vooTerminou && !armaVisivel){
-            Personagem.MudarVisibilidadeArma(Arma);
+            Personagem.MudarVisibilidadeArma(Arma.gameObject);
             armaVisivel = true;
         }
         rotacaoCorvo = cameraJogador.transform.rotation;       
@@ -113,7 +119,7 @@ public class Odin : MonoBehaviour
                     segurandoCorvo = true;
                     Debug.Log("pegou corvo");
                     if(temArma){
-                        Personagem.MudarVisibilidadeArma(Arma);
+                        Personagem.MudarVisibilidadeArma(Arma.gameObject);
                     }
                 }
             }
@@ -122,7 +128,7 @@ public class Odin : MonoBehaviour
                     segurandoCorvo = false;
                     Debug.Log("soltou corvo");
                     if(temArma){
-                        Personagem.MudarVisibilidadeArma(Arma);
+                        Personagem.MudarVisibilidadeArma(Arma.gameObject);
                     }
                 }
                 if(Input.GetMouseButtonDown(0)){
