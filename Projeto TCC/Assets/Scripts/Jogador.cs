@@ -12,6 +12,8 @@ public class Jogador
     private CharacterController charCont;
     Transform transf;
     float gravidade;
+    GameObject ArmaPersonagem;
+    Vector2 recuo;
 
     
 
@@ -48,6 +50,9 @@ public class Jogador
     
     public void MudarVisibilidadeArma(GameObject Arma){
         Arma.gameObject.SetActive(!Arma.gameObject.activeSelf);
+        if(Arma.gameObject.activeSelf == true){
+            Arma.GetComponent<Animator>().SetTrigger("Recarga Terminou");
+        }
     }
 
     public void MovimentaMouse(GameObject player, Camera playerCam, CharacterController controller, Vector2 recuo){
@@ -72,4 +77,6 @@ public class Jogador
         charCont.transform.eulerAngles = new Vector3(0f ,MouseX + recuo.y,0f);
         camera.transform.eulerAngles = player.transform.eulerAngles + new Vector3(-MouseY + -recuo.x,-90f,0f);
     }
+
+    
 }

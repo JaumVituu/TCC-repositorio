@@ -52,9 +52,9 @@ public class Odin : MonoBehaviour
         //if(Sistema.GetComponent<Sistema>().turnoDaEquipe == EquipeAtual)
             if(cameraJogador.GetComponent<Camera>().enabled == true){
                 Personagem.Movimenta(gameObject,charController, velocidade);
+                Personagem.MovimentaMouse(gameObject,cameraJogador,charController,recuoArma);
             }
         //}
-        Personagem.MovimentaMouse(gameObject,cameraJogador,charController, recuoArma);
         Arma = cameraJogador.transform.GetChild(0);
         if(Arma.gameObject.tag == "Arma"){
             recuoArma = Arma.gameObject.GetComponent<Arma>().recuo;
@@ -165,6 +165,8 @@ public class Odin : MonoBehaviour
         }
         
         if(usandoCorvo){
+            cameraJogador.GetComponent<Camera>().enabled = false;
+            cameraCorvo.gameObject.SetActive(true);
             try{
                 if(MouseY <= 90f && MouseY >= -90f){
                     MouseY += Input.GetAxis("Mouse Y");        
@@ -184,6 +186,10 @@ public class Odin : MonoBehaviour
             catch(Exception e){
                 Debug.Log("Corvo não encontrado, código do erro: " + e);
             }
+        }
+        else{
+            cameraJogador.gameObject.SetActive(true);
+            cameraCorvo.gameObject.SetActive(false);
         }              
     }    
 }

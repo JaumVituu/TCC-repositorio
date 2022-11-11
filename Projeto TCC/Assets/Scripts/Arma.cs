@@ -26,6 +26,8 @@ public class Arma : MonoBehaviour
     Transform cameraAtribuida;
     public Vector2 recuo;
     [SerializeField][Range(0,1)]float atrasoRecuo;
+    [SerializeField][Range(0,1)]float recuoAleatorio;
+    [SerializeField] Light luzTiro;
 
 
     
@@ -97,7 +99,11 @@ public class Arma : MonoBehaviour
         }
     }
     void FixedUpdate(){
+        luzTiro.intensity = Mathf.Lerp(luzTiro.intensity,0,0.75f);
         recuo.x = Mathf.Lerp(recuo.x, 0, atrasoRecuo);
+        if(Mathf.Round(recuo.x*5) == 0){
+            recuo.x = 0;
+        }
         if(municaoInicial > 0 && municaoAtual == 0 && recarregou){
             StartCoroutine(Recarregar());
         }
@@ -111,6 +117,7 @@ public class Arma : MonoBehaviour
 
 
     bool Atirar(){
+        luzTiro.intensity = 6.0f;
         armaAnim.SetTrigger("Atirando");
         Muzzle.Play();
         GameObject Tiro = Instantiate(objetoTiro, emissorTiro.position, emissorTiro.rotation);
@@ -123,22 +130,22 @@ public class Arma : MonoBehaviour
         Tiro.GetComponent<Rigidbody>().velocity = ray.direction * 150;
         Destroy(Tiro, 2f);
         municaoAtual -= 1;
-        if(spray.x <= municaoInicial/3){
-            recuo += new Vector2(coiceCoeficiente,0);
+        if(spray.x <= municaoInicial/3 + (int) Random.Range(-2,2)){
+            recuo += new Vector2(coiceCoeficiente+Random.Range(recuoAleatorio,-recuoAleatorio),Random.Range(recuoAleatorio,-recuoAleatorio));
             spray.x += 1;
             
         }
-        else if(spray.y <= municaoInicial/3){
+        else if(spray.y <= municaoInicial/6 + (int) Random.Range(-2,2)){
             spray.y += 1;
-            recuo += new Vector2(recuo.x*atrasoRecuo*5, coiceCoeficiente/2);
+            recuo += new Vector2(recuo.x*atrasoRecuo*5+Random.Range(recuoAleatorio,-recuoAleatorio), coiceCoeficiente/2+Random.Range(recuoAleatorio,-recuoAleatorio));
         }
         else if(spray.y <= 5*municaoInicial/6){
             spray.y += 2;
-            recuo += new Vector2(recuo.x*atrasoRecuo*5, -coiceCoeficiente/2);
+            recuo += new Vector2(recuo.x*atrasoRecuo*5+Random.Range(recuoAleatorio,-recuoAleatorio), -coiceCoeficiente/2+Random.Range(recuoAleatorio,-recuoAleatorio));
         }
         else{
-            spray.y += 2;
-            recuo += new Vector2(recuo.x*atrasoRecuo*5, -coiceCoeficiente/2);
+            spray.y += 1;
+            recuo += new Vector2(recuo.x*atrasoRecuo*5+Random.Range(recuoAleatorio,-recuoAleatorio), -coiceCoeficiente/2+Random.Range(recuoAleatorio,-recuoAleatorio));
         }
         return true;
     }
@@ -153,12 +160,13 @@ public class Arma : MonoBehaviour
         podeAtirar = false;
         recarregou = false;
         yield return new WaitForSeconds(tempoRecarga);
-        armaAnim.SetTrigger("Recarga Terminou");
+        armaAnim.SetBool("Recarga Terminou",false);
         yield return new WaitForSeconds(0.1f);
-        armaAnim.SetBool("Recarregando",false);
+        armaAnim.SetBool("Recarga Terminou",false);
+        armaAnim.SetBool("Recarregando",true);
         municaoAtual = municaoInicial;
-        recarregou = true;
         podeAtirar = true;
         spray = Vector2.zero;
+        recarregou = true;
     }
 }
