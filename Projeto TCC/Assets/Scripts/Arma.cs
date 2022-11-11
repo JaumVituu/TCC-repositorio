@@ -22,16 +22,17 @@ public class Arma : MonoBehaviour
     bool recarregou;
     [SerializeField]float coiceCoeficiente;
     [SerializeField]int multCoice;
-    int spray;
+    Vector2 spray;
     Transform cameraAtribuida;
-    public Vector2 recuoEsperado;
-    public Vector2 recuoAtual;
+    public Vector2 recuo;
+    [SerializeField][Range(0,1)]float atrasoRecuo;
+
 
     
 
     void Start()
     {
-        armaAnim.SetFloat("VelocidadeTiro",0.1f/taxaInicial);
+        armaAnim.SetFloat("VelocidadeTiro",0.165f/taxaInicial);
         noChao = false;
         estaEquipada = true;
         taxaTiro = 0;
@@ -68,7 +69,7 @@ public class Arma : MonoBehaviour
                         if(Input.GetMouseButtonUp(0)){
                             taxaTiro = 0f;
                             armaAnim.SetBool("Parou de atirar", true);
-                            spray = 0;
+                            spray = Vector2.zero;
                         }   
                     }
                     else{
@@ -79,7 +80,7 @@ public class Arma : MonoBehaviour
                                     armaAnim.SetBool("Parou de atirar", false);
                                     taxaTiro = taxaInicial;
                                     armaAnim.SetBool("Parou de atirar", true);
-                                    spray = 0;
+                                    spray = Vector2.zero;
                                 }
                             }
                             else{
@@ -96,14 +97,14 @@ public class Arma : MonoBehaviour
         }
     }
     void FixedUpdate(){
-        recuoAtual = Vector2.Lerp(recuoEsperado, new Vector2(0,0), 0.7f);
+        recuo.x = Mathf.Lerp(recuo.x, 0, atrasoRecuo);
         if(municaoInicial > 0 && municaoAtual == 0 && recarregou){
             StartCoroutine(Recarregar());
         }
         if(municaoAtual <= 0 ){
             municaoAtual = 0;
         }
-        if(Input.GetKey(KeyCode.R)){
+        if(Input.GetKey(KeyCode.R)&&municaoAtual != municaoInicial){
             StartCoroutine(Recarregar());
         }
     }
@@ -117,19 +118,28 @@ public class Arma : MonoBehaviour
         float y = Screen.height / 2;
 
         Camera cam = transform.parent.GetComponent<Camera>();
-        Debug.Log(cam.name);
              
-        var ray = cam.ScreenPointToRay(new Vector3(x, y, 0));
-        if (spray < 13){
-            
-            recuoEsperado = new Vector2(spray*coiceCoeficiente,0);
-        }
-        
+        var ray = cam.ScreenPointToRay(new Vector3(x, y, 0));       
         Tiro.GetComponent<Rigidbody>().velocity = ray.direction * 150;
         Destroy(Tiro, 2f);
         municaoAtual -= 1;
-        spray += 1;
-
+        if(spray.x <= municaoInicial/3){
+            recuo += new Vector2(coiceCoeficiente,0);
+            spray.x += 1;
+            
+        }
+        else if(spray.y <= municaoInicial/3){
+            spray.y += 1;
+            recuo += new Vector2(recuo.x*atrasoRecuo*5, coiceCoeficiente/2);
+        }
+        else if(spray.y <= 5*municaoInicial/6){
+            spray.y += 2;
+            recuo += new Vector2(recuo.x*atrasoRecuo*5, -coiceCoeficiente/2);
+        }
+        else{
+            spray.y += 2;
+            recuo += new Vector2(recuo.x*atrasoRecuo*5, -coiceCoeficiente/2);
+        }
         return true;
     }
 
@@ -138,13 +148,17 @@ public class Arma : MonoBehaviour
     }
 
     IEnumerator Recarregar(){
+        armaAnim.SetBool("Recarregando",true);
         armaAnim.SetBool("Parou de atirar", true);
         podeAtirar = false;
         recarregou = false;
         yield return new WaitForSeconds(tempoRecarga);
+        armaAnim.SetTrigger("Recarga Terminou");
+        yield return new WaitForSeconds(0.1f);
+        armaAnim.SetBool("Recarregando",false);
         municaoAtual = municaoInicial;
         recarregou = true;
         podeAtirar = true;
-        spray = 0;
+        spray = Vector2.zero;
     }
 }

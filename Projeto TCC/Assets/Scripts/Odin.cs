@@ -57,7 +57,7 @@ public class Odin : MonoBehaviour
         Personagem.MovimentaMouse(gameObject,cameraJogador,charController, recuoArma);
         Arma = cameraJogador.transform.GetChild(0);
         if(Arma.gameObject.tag == "Arma"){
-            recuoArma = Arma.gameObject.GetComponent<Arma>().recuoAtual;
+            recuoArma = Arma.gameObject.GetComponent<Arma>().recuo;
         }
         UsarCorvo();
     }
@@ -69,7 +69,10 @@ public class Odin : MonoBehaviour
             armaVisivel = true;
         }
         rotacaoCorvo = cameraJogador.transform.rotation;       
-        if (corvoUsado){  
+        if (corvoUsado){
+            if(tempoVoo >= 0f && Input.GetKey(KeyCode.E)){
+                tempoVoo = 0;
+            }  
             if(tipoVoo == 0){
                 if(tempoVoo >= 0f){
                     armaVisivel = false;
