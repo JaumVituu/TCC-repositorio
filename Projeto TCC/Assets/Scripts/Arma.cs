@@ -14,7 +14,7 @@ public class Arma : MonoBehaviour
     float taxaTiro;
     bool podeAtirar;
     int qtdeRecarga;
-    [SerializeField] float taxaInicial;
+    public float taxaInicial;
     [SerializeField] VisualEffect Muzzle;
     public Animator armaAnim;
     [SerializeField] bool armaAutomatica;
@@ -29,7 +29,7 @@ public class Arma : MonoBehaviour
     [SerializeField][Range(0,1)]float recuoAleatorio;
     [SerializeField] Light luzTiro;
 
-
+    [SerializeField] float dano;
     
 
     void Start()
@@ -104,30 +104,40 @@ public class Arma : MonoBehaviour
         if(Mathf.Round(recuo.x*5) == 0){
             recuo.x = 0;
         }
-        if(municaoInicial > 0 && municaoAtual == 0 && recarregou){
+        if(municaoAtual == 0 && recarregou){
             StartCoroutine(Recarregar());
         }
         if(municaoAtual <= 0 ){
             municaoAtual = 0;
         }
-        if(Input.GetKey(KeyCode.R)&&municaoAtual != municaoInicial){
+        if(Input.GetKey(KeyCode.R) && municaoAtual != municaoInicial){
             StartCoroutine(Recarregar());
         }
     }
 
 
     bool Atirar(){
+        
         luzTiro.intensity = 6.0f;
         armaAnim.SetTrigger("Atirando");
         Muzzle.Play();
         GameObject Tiro = Instantiate(objetoTiro, emissorTiro.position, emissorTiro.rotation);
         float x = Screen.width / 2;
         float y = Screen.height / 2;
+        Camera cam = transform.parent.GetComponent<Camera>();            
+        var ray = cam.ScreenPointToRay(new Vector3(x, y, 0));  
 
-        Camera cam = transform.parent.GetComponent<Camera>();
-             
-        var ray = cam.ScreenPointToRay(new Vector3(x, y, 0));       
-        Tiro.GetComponent<Rigidbody>().velocity = ray.direction * 150;
+        Ray raycastRay = new Ray(new Vector3(x,y, emissorTiro.position.z), ray.direction);
+        RaycastHit hit;
+
+        if(Physics.Raycast(ray, out hit)){
+            //DestruirTiro(Tiro);
+            if(hit.transform.gameObject.tag == "Player"){
+                hit.transform.gameObject.SendMessage("PerderVida",dano);
+            }
+        }
+
+        Tiro.GetComponent<Rigidbody>().velocity = ray.direction * 300;
         Destroy(Tiro, 2f);
         municaoAtual -= 1;
         if(spray.x <= municaoInicial/3 + (int) Random.Range(-2,2)){
@@ -150,20 +160,23 @@ public class Arma : MonoBehaviour
         return true;
     }
 
-    void OnCollisionEnter(Collision collision){
-
+    void DestruirTiro(GameObject objeto){
+        Destroy(objeto);
     }
 
     IEnumerator Recarregar(){
+        armaAnim.SetBool("Recarga Terminou", true);
         armaAnim.SetBool("Recarregando",true);
         armaAnim.SetBool("Parou de atirar", true);
         podeAtirar = false;
         recarregou = false;
+
         yield return new WaitForSeconds(tempoRecarga);
         armaAnim.SetBool("Recarga Terminou",false);
+
         yield return new WaitForSeconds(0.1f);
-        armaAnim.SetBool("Recarga Terminou",false);
-        armaAnim.SetBool("Recarregando",true);
+        armaAnim.SetBool("Recarga Terminou",true);
+        armaAnim.SetBool("Recarregando",false);
         municaoAtual = municaoInicial;
         podeAtirar = true;
         spray = Vector2.zero;

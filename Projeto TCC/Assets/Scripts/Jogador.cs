@@ -51,7 +51,9 @@ public class Jogador
     public void MudarVisibilidadeArma(GameObject Arma){
         Arma.gameObject.SetActive(!Arma.gameObject.activeSelf);
         if(Arma.gameObject.activeSelf == true){
-            Arma.GetComponent<Animator>().SetTrigger("Recarga Terminou");
+            Arma.GetComponent<Animator>().SetTrigger("Pegou Arma");
+            Arma.GetComponent<Animator>().SetBool("Recarga Terminou", true);
+            Arma.GetComponent<Animator>().SetFloat("VelocidadeTiro",0.165f/Arma.GetComponent<Arma>().taxaInicial);
         }
     }
 

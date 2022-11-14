@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Odin : MonoBehaviour
 {
+    int vida;
     Jogador Personagem = new Jogador("Odin");
     bool temArma;
     public Transform Arma;
@@ -61,6 +62,10 @@ public class Odin : MonoBehaviour
         }
         UsarCorvo();
     }
+
+    public void PerderVida(int vidaPerdida){
+        vida -= vidaPerdida;
+    }
     
 
     void UsarCorvo(){
@@ -77,7 +82,7 @@ public class Odin : MonoBehaviour
                 if(tempoVoo >= 0f){
                     armaVisivel = false;
                     vooTerminou = false;
-                    habilidadeCorvo.transform.Translate(0,0,5*Time.deltaTime,Space.Self);
+                    habilidadeCorvo.transform.Translate(0,0,10*Time.deltaTime,Space.Self);
                     cameraCorvo = habilidadeCorvo.transform.GetChild(0);
                     cameraCorvo.GetComponent<Camera>().enabled = false;
                     tempoVoo -= Time.deltaTime;
@@ -91,7 +96,7 @@ public class Odin : MonoBehaviour
                 if(tempoVoo >= 0f){
                     armaVisivel = false;
                     vooTerminou = false;
-                    habilidadeCorvo.transform.Translate(0,0,10*Time.deltaTime,Space.Self);
+                    habilidadeCorvo.transform.Translate(0,0,20*Time.deltaTime,Space.Self);
                     direcaoCorvo = habilidadeCorvo.transform.forward + habilidadeCorvo.transform.right;
                     cameraCorvo = habilidadeCorvo.transform.GetChild(0);
                     cameraCorvo.GetComponent<Camera>().enabled = false;
@@ -187,9 +192,14 @@ public class Odin : MonoBehaviour
                 Debug.Log("Corvo não encontrado, código do erro: " + e);
             }
         }
-        else{
+        else if(corvoDisponivel){
             cameraJogador.gameObject.SetActive(true);
-            cameraCorvo.gameObject.SetActive(false);
+            try{
+                cameraCorvo.gameObject.SetActive(false);
+            }
+            catch(Exception e){
+                Debug.Log("Erro: " + e);
+            }
         }              
     }    
 }
