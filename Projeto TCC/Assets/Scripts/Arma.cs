@@ -31,6 +31,7 @@ public class Arma : MonoBehaviour
     [SerializeField] Light luzTiro;
     [SerializeField] GameObject BuracoTiro;
     [SerializeField] float dano;
+    [SerializeField] GameObject IndicaTiro;
     public bool estaAndando;
     
 
@@ -135,6 +136,11 @@ public class Arma : MonoBehaviour
             //DestruirTiro(Tiro);
             if(hit.transform.gameObject.tag == "Player"){
                 hit.transform.gameObject.SendMessage("PerderVida",dano);
+            }
+            else if(hit.transform.gameObject.tag == "Alvo"){
+                GameObject Indicador = Instantiate(IndicaTiro, hit.point, Quaternion.LookRotation(-hit.normal));
+                Destroy(Indicador,15f);
+
             }
             else{
                 GameObject Buraco = Instantiate(BuracoTiro, hit.point, Quaternion.LookRotation(-hit.normal));

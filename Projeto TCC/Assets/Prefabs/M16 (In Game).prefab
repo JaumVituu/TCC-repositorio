@@ -469,6 +469,8 @@ MonoBehaviour:
   luzTiro: {fileID: 2124562050}
   BuracoTiro: {fileID: 7313235921382524520, guid: 6b65cb66845f3c04e8ecd87408dd60f3, type: 3}
   dano: 0
+  IndicaTiro: {fileID: 5768574315378703024, guid: 606fbe957337a584db9680ba371f9450, type: 3}
+  estaAndando: 0
 --- !u!4 &7929318161496535451 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3517678887138574215, guid: 30061f5c314c66642ac66e465b451df0, type: 3}

@@ -5,11 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Arma
+  - Alvo
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Static objects
   - Water
   - UI
   - 

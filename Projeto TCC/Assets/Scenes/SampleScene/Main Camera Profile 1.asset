@@ -179,7 +179,7 @@ MonoBehaviour:
     m_Value: 2
   intensity:
     m_OverrideState: 1
-    m_Value: 0.082
+    m_Value: 0.051
   clamp:
     m_OverrideState: 1
     m_Value: 0.109
