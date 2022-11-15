@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
+using UnityEngine.Rendering.Universal;
 
 public class Arma : MonoBehaviour
 {
@@ -28,8 +29,9 @@ public class Arma : MonoBehaviour
     [SerializeField][Range(0,1)]float atrasoRecuo;
     [SerializeField][Range(0,1)]float recuoAleatorio;
     [SerializeField] Light luzTiro;
-
+    [SerializeField] GameObject BuracoTiro;
     [SerializeField] float dano;
+    public bool estaAndando;
     
 
     void Start()
@@ -115,7 +117,6 @@ public class Arma : MonoBehaviour
         }
     }
 
-
     bool Atirar(){
         
         luzTiro.intensity = 6.0f;
@@ -134,6 +135,12 @@ public class Arma : MonoBehaviour
             //DestruirTiro(Tiro);
             if(hit.transform.gameObject.tag == "Player"){
                 hit.transform.gameObject.SendMessage("PerderVida",dano);
+            }
+            else{
+                GameObject Buraco = Instantiate(BuracoTiro, hit.point, Quaternion.LookRotation(-hit.normal));
+                Destroy(Buraco,15f);
+                Buraco.transform.eulerAngles += new Vector3(0, 0, Random.Range(0,360));
+                Buraco.transform.localScale += new Vector3(Random.Range(-0.1f,0.1f),Random.Range(-0.1f,0.1f),Random.Range(-0.1f,0.1f));
             }
         }
 

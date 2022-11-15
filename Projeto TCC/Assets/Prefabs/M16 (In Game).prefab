@@ -363,7 +363,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4294919896463664445, guid: 30061f5c314c66642ac66e465b451df0, type: 3}
       propertyPath: m_Name
-      value: M16 Variant
+      value: M16 (In Game)
       objectReference: {fileID: 0}
     - target: {fileID: 5864088872836447043, guid: 30061f5c314c66642ac66e465b451df0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -467,6 +467,8 @@ MonoBehaviour:
   atrasoRecuo: 0.02
   recuoAleatorio: 0
   luzTiro: {fileID: 2124562050}
+  BuracoTiro: {fileID: 7313235921382524520, guid: 6b65cb66845f3c04e8ecd87408dd60f3, type: 3}
+  dano: 0
 --- !u!4 &7929318161496535451 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3517678887138574215, guid: 30061f5c314c66642ac66e465b451df0, type: 3}
