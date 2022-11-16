@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657892, g: 0.4964133, b: 0.57481736, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.5748167, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 2abc310901f87284c8ffc51620d5e87d, type: 2}
   m_LightingSettings: {fileID: 2065371394}
 --- !u!196 &4
 NavMeshSettings:
@@ -2991,7 +2991,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh28964
+  m_Name: pb_Mesh29048
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -3238,6 +3238,10 @@ PrefabInstance:
       propertyPath: taxaInicial
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 6897739806134798231, guid: 560da90b60b07ca489678641bdbda26e, type: 3}
+      propertyPath: ParticulasParede
+      value: 
+      objectReference: {fileID: 4047506704401796340, guid: e86d718eae1075e46a649d053eea30f1, type: 3}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 560da90b60b07ca489678641bdbda26e, type: 3}
@@ -3247,7 +3251,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh28838
+  m_Name: pb_Mesh28930
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -3836,7 +3840,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh28990
+  m_Name: pb_Mesh29074
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -5193,7 +5197,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh28880
+  m_Name: pb_Mesh28974
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -5469,7 +5473,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2453454481232877958, guid: 65cd994336d0eb4458951d838c95f96f, type: 3}
       propertyPath: m_RootOrder
-      value: 21
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2453454481232877958, guid: 65cd994336d0eb4458951d838c95f96f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6114,7 +6118,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh28854
+  m_Name: pb_Mesh28946
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -6331,7 +6335,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2453454481232877958, guid: 65cd994336d0eb4458951d838c95f96f, type: 3}
       propertyPath: m_RootOrder
-      value: 20
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 2453454481232877958, guid: 65cd994336d0eb4458951d838c95f96f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6386,7 +6390,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh28800
+  m_Name: pb_Mesh28886
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -7064,7 +7068,7 @@ LightingSettings:
   m_UsingShadowmask: 1
   m_BakeBackend: 1
   m_LightmapMaxSize: 1024
-  m_BakeResolution: 40
+  m_BakeResolution: 1
   m_Padding: 2
   m_LightmapCompression: 3
   m_AO: 0

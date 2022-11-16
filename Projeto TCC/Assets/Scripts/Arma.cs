@@ -32,6 +32,7 @@ public class Arma : MonoBehaviour
     [SerializeField] GameObject BuracoTiro;
     [SerializeField] float dano;
     [SerializeField] GameObject IndicaTiro;
+    [SerializeField] GameObject ParticulasParede;
     public bool estaAndando;
     
 
@@ -143,10 +144,12 @@ public class Arma : MonoBehaviour
 
             }
             else{
-                GameObject Buraco = Instantiate(BuracoTiro, hit.point, Quaternion.LookRotation(-hit.normal));
+                GameObject Particulas = Instantiate(ParticulasParede, hit.point, Quaternion.LookRotation(hit.normal));
+                //Destroy(Particulas);
+                /*GameObject Buraco = Instantiate(BuracoTiro, hit.point, Quaternion.LookRotation(-hit.normal));
                 Destroy(Buraco,15f);
                 Buraco.transform.eulerAngles += new Vector3(0, 0, Random.Range(0,360));
-                Buraco.transform.localScale += new Vector3(Random.Range(-0.1f,0.1f),Random.Range(-0.1f,0.1f),Random.Range(-0.1f,0.1f));
+                Buraco.transform.localScale += new Vector3(Random.Range(-0.1f,0.1f),Random.Range(-0.1f,0.1f),Random.Range(-0.1f,0.1f));*/
             }
         }
 

@@ -53,7 +53,7 @@ public class Odin : MonoBehaviour
         //if(Sistema.GetComponent<Sistema>().turnoDaEquipe == EquipeAtual)
             if(cameraJogador.GetComponent<Camera>().enabled == true){
                 Personagem.Movimenta(gameObject,charController, velocidade);
-                Personagem.MovimentaMouse(gameObject,cameraJogador,charController,recuoArma);
+                //Personagem.MovimentaMouse(gameObject,cameraJogador,charController,recuoArma);
             }
         //}
         Arma = cameraJogador.transform.GetChild(0);
