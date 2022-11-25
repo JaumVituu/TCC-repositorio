@@ -135,9 +135,15 @@ public class Arma : MonoBehaviour
 
         if(Physics.Raycast(ray, out hit)){
             //DestruirTiro(Tiro);
-            if(hit.transform.gameObject.tag == "Player"){
+            if(hit.transform.gameObject.tag == "Player" || hit.transform.gameObject.tag == "Enemy"){
+                Collider colisorAtingido = hit.collider;
+                TipoDano danoCausado = new TipoDano((int)dano,colisorAtingido);
+                hit.transform.parent.gameObject.SendMessage("PerderVida",danoCausado);
+            }
+            else if(hit.transform.gameObject.tag == "ObjetoTreino"){
                 hit.transform.gameObject.SendMessage("PerderVida",dano);
             }
+
             else if(hit.transform.gameObject.tag == "Alvo"){
                 GameObject Indicador = Instantiate(IndicaTiro, hit.point, Quaternion.LookRotation(-hit.normal));
                 Destroy(Indicador,15f);

@@ -34,7 +34,8 @@ public class ObjetoTreino : MonoBehaviour
         }
     }
 
-    public void PerderVida(int vidaPerdida){
+    public void PerderVida(int dano){
+        int vidaPerdida = dano;
         vida -= vidaPerdida;
         if(vida <= 0){
             StartCoroutine(Morrer());
