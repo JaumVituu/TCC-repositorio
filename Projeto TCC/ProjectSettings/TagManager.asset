@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Arma
   - Alvo
+  - ObjetoTreino
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -13,7 +15,7 @@ TagManager:
   - Static objects
   - Water
   - UI
-  - 
+  - Floor
   - 
   - 
   - 
