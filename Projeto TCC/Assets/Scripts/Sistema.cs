@@ -10,6 +10,8 @@ public class Sistema : MonoBehaviour
     public float parOuImpar;
     [SerializeField] Text Municao;
     [SerializeField] GameObject Arma;
+    [SerializeField] Text Vida;
+    [SerializeField] GameObject Jogador;
 
     void Start()
     {
@@ -36,6 +38,9 @@ public class Sistema : MonoBehaviour
         }
 
         Municao.text = "Munição: " + Arma.GetComponent<Arma>().municaoAtual.ToString() + "/" + Arma.GetComponent<Arma>().municaoInicial.ToString();
+        if(Jogador.name == "Odin (com Arma)"){
+            Vida.text = Jogador.GetComponent<Odin>().vida.ToString();
+        }
 
     }
 }

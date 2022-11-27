@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Rendering;
 
 public class Jogador
 {
@@ -35,7 +37,7 @@ public class Jogador
 
         movementDirection.Normalize();
         controller.Move(movementDirection*speed/*magnitude*/);
-        controller.Move(new Vector3(0,0,0));       
+        controller.Move(new Vector3(0,0,0));
     }
 
     public void Cair(CharacterController controller, GameObject player){
@@ -80,5 +82,15 @@ public class Jogador
         camera.transform.eulerAngles = player.transform.eulerAngles + new Vector3(-MouseY + -recuo.x,-90f,0f);
     }
 
-    
+    public int ReceberDano(int dano, Color opacidadeSangue, GameObject Sangue){
+        opacidadeSangue.a += 0.2f;
+        Sangue.GetComponent<Image>().color = opacidadeSangue;
+        opacidadeSangue.a = 0;
+        return dano;
+        Debug.Log("Dano recebido");
+    }
+
+    /*public void Morrer(Animator anim, Canvas GameOver){
+        anim.SetTrigger("Morreu");
+    }*/
 }

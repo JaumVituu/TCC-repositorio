@@ -2,10 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class Odin : MonoBehaviour
 {
-    int vida;
+    public int vida;
     Jogador Personagem = new Jogador("Odin");
     bool temArma;
     public Transform Arma;
@@ -30,6 +32,8 @@ public class Odin : MonoBehaviour
     public float velCorvo;
     bool armaVisivel;
     public Vector2 recuoArma;
+    [SerializeField]GameObject sangue;
+    [SerializeField]Color corSangue;
     //public bool EquipeAtual;
 
     void Start()
@@ -43,12 +47,21 @@ public class Odin : MonoBehaviour
         corvoDisponivel = false;
         temArma = true;
         armaVisivel = true;
+        
 
     }
 
 
     void Update()
     {
+        if(charController.velocity != Vector3.zero){
+            
+        }
+        sangue.GetComponent<Image>().color = Color.Lerp(new Color (sangue.GetComponent<Image>().color.r,sangue.GetComponent<Image>().color.g,sangue.GetComponent<Image>().color.b,0), sangue.GetComponent<Image>().color, 0.9975f);
+        if(Input.GetKeyDown(KeyCode.P)){
+            Personagem.ReceberDano(25,corSangue, sangue);
+        }
+        corSangue = sangue.GetComponent<Image>().color;
         Personagem.Cair(charController, gameObject);
         //if(Sistema.GetComponent<Sistema>().turnoDaEquipe == EquipeAtual)
             if(cameraJogador.GetComponent<Camera>().enabled == true){
@@ -201,5 +214,11 @@ public class Odin : MonoBehaviour
                 Debug.Log("Erro: " + e);
             }
         }              
+    }
+
+    void OnTriggerEnter(Collider colisao){
+        if(colisao.gameObject.name == "Kick hitbox"){
+            vida -= Personagem.ReceberDano(25, corSangue, sangue);
+        }
     }    
 }
