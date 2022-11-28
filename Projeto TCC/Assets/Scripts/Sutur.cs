@@ -1,11 +1,32 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+using UnityEngine.Rendering;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Sutur : MonoBehaviour
 {
-    public Transform cam;
+    public int vida;
+    Jogador Personagem = new Jogador("Sutur");
+    bool temArma;
+    public Transform Arma;
+    public Camera cameraJogador;
+    private CharacterController charController;
+    public GameObject Sistema;
+    public float velocidade;
+    float MouseY, MouseX;
+    bool armaVisivel;
+    public Vector2 recuoArma;
+    [SerializeField]GameObject sangue;
+    [SerializeField]Color corSangue;
+    [SerializeField]Animator animatorSutur;
+    [SerializeField]Image fadeOut;
+    Color fadeOutColor;
+    bool telaEscureceu;
+    [SerializeField]bool isDebuging;
+    public bool podeAgir;
     public Transform attackPoint;
     public GameObject Projetil;
     int totalThrows;
@@ -18,29 +39,65 @@ public class Sutur : MonoBehaviour
         ProntoArremessar = true;
         totalThrows = 1000;
         forca = 50;
+        charController = GetComponent<CharacterController>();
+        temArma = true;
+        armaVisivel = true;
+        telaEscureceu = false;
+        podeAgir = true;
+    }
+
+    public void EstarOcioso(bool variavel){
+        podeAgir = variavel;
+        Debug.Log("Ok");
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.E) && ProntoArremessar && totalThrows > 0)
+        Arma.gameObject.GetComponent<Arma>().personagemPodeAgir = podeAgir;      
+        if(vida <= 0){
+            Personagem.Morrer(animatorSutur);
+            vida = 0;
+            StartCoroutine(MostrarGameOver("GameOver"));
+        }
+        else{
+            sangue.GetComponent<Image>().color = Color.Lerp(new Color (sangue.GetComponent<Image>().color.r,sangue.GetComponent<Image>().color.g,sangue.GetComponent<Image>().color.b,0), sangue.GetComponent<Image>().color, 0.9975f);
+        }
+
+        corSangue = sangue.GetComponent<Image>().color;
+        Personagem.Cair(charController, gameObject);
+        //if(Sistema.GetComponent<Sistema>().turnoDaEquipe == EquipeAtual)
+            if(cameraJogador.GetComponent<Camera>().enabled == true && vida > 0 && podeAgir){
+                Personagem.Movimenta(gameObject,charController, velocidade);
+                Personagem.MovimentaMouse(gameObject,cameraJogador,charController,recuoArma);
+            }
+        //}
+        Arma = cameraJogador.transform.GetChild(0);
+        if(Arma.gameObject.tag == "Arma"){
+            recuoArma = Arma.gameObject.GetComponent<Arma>().recuo;
+        }
+        if(Input.GetKeyDown(KeyCode.E) && ProntoArremessar && totalThrows > 0 && podeAgir && vida > 0)
         {
             Arremessar();
         }
+    }
+
+    public void PerderVida(int vidaPerdida){
+        vida -= vidaPerdida;
     }
 
     private void Arremessar()
     {
         ProntoArremessar = false;
 
-        GameObject projectile = Instantiate(Projetil, attackPoint.position, cam.rotation);
+        GameObject projectile = Instantiate(Projetil, attackPoint.position, cameraJogador.transform.rotation);
 
         Rigidbody projectileRb = projectile.GetComponent<Rigidbody>();
 
-        Vector3 forceDirection = cam.transform.forward;
+        Vector3 forceDirection = cameraJogador.transform.forward;
 
         RaycastHit hit;
 
-        if(Physics.Raycast(cam.position, cam.forward, out hit, 500f))
+        if(Physics.Raycast(cameraJogador.transform.position, cameraJogador.transform.forward, out hit, 500f))
         {
             forceDirection = (hit.point - attackPoint.position).normalized;
         }
@@ -57,5 +114,37 @@ public class Sutur : MonoBehaviour
     private void ResetThrow()
     {
         ProntoArremessar = true;
+    }
+
+    void OnTriggerEnter(Collider colisao){
+        if(colisao.gameObject.name == "Kick hitbox"){
+            vida -= Personagem.ReceberDano(25, corSangue, sangue);
+        }
+    }
+    
+    public void ComecarFade(string nomeDaCena){
+        StartCoroutine(MostrarGameOver(nomeDaCena));
+    }
+
+    IEnumerator MostrarGameOver(string nomeCena){
+        if(!telaEscureceu){
+            StartCoroutine(FadeOut());
+            telaEscureceu = true;
+        }
+        yield return new WaitForSeconds(3);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        SceneManager.LoadScene(nomeCena);
+    }
+
+    IEnumerator FadeOut(){
+        do{
+            fadeOutColor = fadeOut.GetComponent<Image>().color;
+            fadeOutColor = new Color(fadeOutColor.r,fadeOutColor.g,fadeOutColor.b,fadeOutColor.a + 0.0125f);
+            fadeOut.GetComponent<Image>().color = fadeOutColor;
+            yield return new WaitForSeconds(0.025f);
+            Debug.Log(fadeOutColor.a);
+        }
+        while(fadeOutColor.a > 0);
     }
 }

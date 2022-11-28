@@ -14,6 +14,7 @@ public class Arma : MonoBehaviour
     public GameObject objetoTiro;
     float taxaTiro;
     bool podeAtirar;
+    public bool personagemPodeAgir;
     int qtdeRecarga;
     public float taxaInicial;
     [SerializeField] VisualEffect Muzzle;
@@ -61,7 +62,7 @@ public class Arma : MonoBehaviour
             if(podeAtirar){
                 if(municaoAtual>=1){
                     if(armaAutomatica){
-                        if(Input.GetMouseButton(0)){
+                        if(Input.GetMouseButton(0) && personagemPodeAgir){
                             if (taxaTiro <= 0){              
                                 if(Atirar()){
                                     armaAnim.SetBool("Parou de atirar", false);

@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
 
+
 public class Jogador
 {
-    int vida = 100;
     public string name;
     public float MouseY, MouseX;
     public float speed;
@@ -90,7 +90,12 @@ public class Jogador
         Debug.Log("Dano recebido");
     }
 
-    /*public void Morrer(Animator anim, Canvas GameOver){
+    public void Morrer(Animator anim){
+        anim.enabled = true;
         anim.SetTrigger("Morreu");
-    }*/
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    
 }

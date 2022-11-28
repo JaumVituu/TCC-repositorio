@@ -68,7 +68,7 @@ public class Inimigo : MonoBehaviour
     }
 
     void MostrarTextoDano(int danoTexto){
-        GameObject textoDano = Instantiate(ObjetoTextoDano, transform.position + new Vector3(0,3f,0),Quaternion.identity);
+        GameObject textoDano = Instantiate(ObjetoTextoDano, transform.position + new Vector3(0,1.5f,0),Quaternion.identity);
         textoDano.transform.LookAt(cameraAtiva.transform);
         Text texto = textoDano.transform.GetChild(0).GetComponent<Text>();
         texto.text = danoTexto.ToString();

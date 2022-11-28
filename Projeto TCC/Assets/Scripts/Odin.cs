@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Odin : MonoBehaviour
 {
@@ -34,6 +35,12 @@ public class Odin : MonoBehaviour
     public Vector2 recuoArma;
     [SerializeField]GameObject sangue;
     [SerializeField]Color corSangue;
+    [SerializeField]Animator animatorOdin;
+    [SerializeField]Image fadeOut;
+    Color fadeOutColor;
+    bool telaEscureceu;
+    [SerializeField]bool isDebuging;
+    public bool podeAgir;
     //public bool EquipeAtual;
 
     void Start()
@@ -47,24 +54,37 @@ public class Odin : MonoBehaviour
         corvoDisponivel = false;
         temArma = true;
         armaVisivel = true;
-        
+        telaEscureceu = false;
+        podeAgir = true;
+    }
 
+    public void EstarOcioso(bool variavel){
+        podeAgir = variavel;
+        Debug.Log("Ok");
     }
 
 
     void Update()
     {
-        if(charController.velocity != Vector3.zero){
-            
+        Arma.gameObject.GetComponent<Arma>().personagemPodeAgir = podeAgir;
+        if(isDebuging)DebugCode();
+        
+        if(vida <= 0){
+            Personagem.Morrer(animatorOdin);
+            vida = 0;
+            StartCoroutine(MostrarGameOver("GameOver"));
         }
-        sangue.GetComponent<Image>().color = Color.Lerp(new Color (sangue.GetComponent<Image>().color.r,sangue.GetComponent<Image>().color.g,sangue.GetComponent<Image>().color.b,0), sangue.GetComponent<Image>().color, 0.9975f);
-        if(Input.GetKeyDown(KeyCode.P)){
-            Personagem.ReceberDano(25,corSangue, sangue);
+        else{
+            if(podeAgir){
+                UsarCorvo();
+            }
+            sangue.GetComponent<Image>().color = Color.Lerp(new Color (sangue.GetComponent<Image>().color.r,sangue.GetComponent<Image>().color.g,sangue.GetComponent<Image>().color.b,0), sangue.GetComponent<Image>().color, 0.9975f);
         }
+
         corSangue = sangue.GetComponent<Image>().color;
         Personagem.Cair(charController, gameObject);
         //if(Sistema.GetComponent<Sistema>().turnoDaEquipe == EquipeAtual)
-            if(cameraJogador.GetComponent<Camera>().enabled == true){
+            if(cameraJogador.GetComponent<Camera>().enabled == true && vida > 0 && podeAgir){
                 Personagem.Movimenta(gameObject,charController, velocidade);
                 Personagem.MovimentaMouse(gameObject,cameraJogador,charController,recuoArma);
             }
@@ -73,7 +93,16 @@ public class Odin : MonoBehaviour
         if(Arma.gameObject.tag == "Arma"){
             recuoArma = Arma.gameObject.GetComponent<Arma>().recuo;
         }
-        UsarCorvo();
+    }
+
+    void DebugCode(){
+        if((Input.GetKey(KeyCode.Space) && Input.GetKeyDown(KeyCode.LeftShift)) || (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Space))){
+            Personagem.Morrer(animatorOdin);
+            StartCoroutine(MostrarGameOver("GameOver"));
+        }
+        if(Input.GetKeyDown(KeyCode.P)){
+            Personagem.ReceberDano(25,corSangue, sangue);
+        }
     }
 
     public void PerderVida(int vidaPerdida){
@@ -218,7 +247,33 @@ public class Odin : MonoBehaviour
 
     void OnTriggerEnter(Collider colisao){
         if(colisao.gameObject.name == "Kick hitbox"){
-            vida -= Personagem.ReceberDano(25, corSangue, sangue);
+            vida -= Personagem.ReceberDano(50, corSangue, sangue);
         }
+    }
+    
+    public void ComecarFade(string nomeDaCena){
+        StartCoroutine(MostrarGameOver(nomeDaCena));
+    }
+
+    IEnumerator MostrarGameOver(string nomeCena){
+        if(!telaEscureceu){
+            StartCoroutine(FadeOut());
+            telaEscureceu = true;
+        }
+        yield return new WaitForSeconds(3);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        SceneManager.LoadScene(nomeCena);
+    }
+
+    IEnumerator FadeOut(){
+        do{
+            fadeOutColor = fadeOut.GetComponent<Image>().color;
+            fadeOutColor = new Color(fadeOutColor.r,fadeOutColor.g,fadeOutColor.b,fadeOutColor.a + 0.0125f);
+            fadeOut.GetComponent<Image>().color = fadeOutColor;
+            yield return new WaitForSeconds(0.025f);
+            Debug.Log(fadeOutColor.a);
+        }
+        while(fadeOutColor.a > 0);
     }    
 }

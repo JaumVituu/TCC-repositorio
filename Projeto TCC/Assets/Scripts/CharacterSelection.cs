@@ -37,6 +37,6 @@ public class CharacterSelection : MonoBehaviour
     }
     public void Comecar(){
         PlayerPrefs.SetInt("selectedcharacter", selectedcharacter);
-        SceneManager.LoadScene("Estande de Teste");
+        SceneManager.LoadScene("Mapa Usina");
     }
 }

@@ -20,4 +20,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: "Assets/Scenes/Vit\xF3ria.unity"
+    guid: 219cc622af311e647aa55760e8b66d85
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: 644bef9095f76e74ea9244311aba2712
+  - enabled: 1
+    path: Assets/Scenes/Mapa Usina.unity
+    guid: ec3b0bbadb098f843abc281bf73380b0
   m_configObjects: {}
