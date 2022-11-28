@@ -30,7 +30,7 @@ public class Sistema : MonoBehaviour
         tempoTurno = 60f;
         cena = SceneManager.GetActiveScene();
         if(cena.name == "Mapa Usina"){
-            portalAtivo[(int)Mathf.Round(Random.Range(0,2))].SetActive(true);
+            portalAtivo[ (int)Mathf.Round(Random.Range(0,2))].SetActive(true);
         } 
     }
 

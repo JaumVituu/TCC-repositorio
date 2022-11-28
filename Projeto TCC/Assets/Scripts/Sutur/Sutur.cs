@@ -31,14 +31,13 @@ public class Sutur : MonoBehaviour
     public GameObject Projetil;
     int totalThrows;
     public float Recargadearremesso;
-    float forca;
+    [SerializeField]float forca;
     bool ProntoArremessar;
 
     private void Start()
     {
         ProntoArremessar = true;
         totalThrows = 1000;
-        forca = 50;
         charController = GetComponent<CharacterController>();
         temArma = true;
         armaVisivel = true;
@@ -108,7 +107,7 @@ public class Sutur : MonoBehaviour
 
         totalThrows--;
 
-        Invoke(nameof(ResetThrow), Recargadearremesso);
+        Invoke(nameof(ResetThrow), 0/*Recargadearremesso*/);
     }
 
     private void ResetThrow()
