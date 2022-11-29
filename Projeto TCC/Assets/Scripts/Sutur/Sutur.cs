@@ -119,6 +119,12 @@ public class Sutur : MonoBehaviour
         if(colisao.gameObject.name == "Kick hitbox"){
             vida -= Personagem.ReceberDano(25, corSangue, sangue);
         }
+        
+    }
+    void OnTriggerStay(Collider colisao){
+        if(colisao.gameObject.tag == "Fogo"){
+            PerderVida(1);
+        }
     }
     
     public void ComecarFade(string nomeDaCena){

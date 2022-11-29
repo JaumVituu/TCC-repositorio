@@ -21,6 +21,7 @@ public class Inimigo : MonoBehaviour
     [SerializeField]float velocidade;
     [SerializeField]bool estaAndando;
     public bool terminouDeBater;
+    TipoDano danoFogo;
 
     void Start()
     {
@@ -52,13 +53,14 @@ public class Inimigo : MonoBehaviour
                 MostrarTextoDano(vidaPerdida);
             }
         }
-        if(colisorAtingido.name == "Body hurtbox"){
+        if(colisorAtingido.name == "Body hurtbox" || colisorAtingido == null){
             vidaPerdida = dano;
             vida -= vidaPerdida;
             if(vida > 0){
                 MostrarTextoDano(vidaPerdida);
             }
-        }       
+        } 
+
         if (vida <= 0){
             /*foreach(i in textos){
                 Destroy(textos[i]);
@@ -108,6 +110,13 @@ public class Inimigo : MonoBehaviour
     
     void Morrer(){
         anim.SetTrigger("Morreu");
+    }
+
+    void OnTriggerStay(Collider colisao){
+        if(colisao.gameObject.tag == "Fogo"){
+            danoFogo.quantidadeDano = 1;
+            PerderVida(danoFogo);
+        }
     }
     
 }

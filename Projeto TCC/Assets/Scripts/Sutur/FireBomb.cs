@@ -20,7 +20,7 @@ public class FireBomb : MonoBehaviour
         ContactPoint contact = explosao.contacts[0];
         Quaternion rotation = Quaternion.FromToRotation(Vector3.up, contact.normal);
         Vector3 position = contact.point;
-        if(explosao.gameObject.tag == "Ground"){
+        if(explosao.gameObject.tag == "Floor"){
             Instantiate(FireArea, position, rotation);
             Destroy(gameObject);
         }
