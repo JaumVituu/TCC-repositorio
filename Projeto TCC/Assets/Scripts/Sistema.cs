@@ -59,6 +59,9 @@ public class Sistema : MonoBehaviour
         if(Jogador.name == "Odin (com Arma)"){
             Vida.text = "Vida: " + Jogador.GetComponent<Odin>().vida.ToString();
         }
+        if(Jogador.name == "Sutur(com Arma)"){
+            Vida.text = "Vida: " + Jogador.GetComponent<Sutur>().vida.ToString();
+        }
         if(cena.name == "Mapa Usina"){
             Timer.text = "Tempo restante: " + TimeFormat(tempoRestante);
         }
