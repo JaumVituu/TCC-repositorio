@@ -29,14 +29,14 @@ public class Sistema : MonoBehaviour
         }
         tempoTurno = 60f;
         cena = SceneManager.GetActiveScene();
-        if(cena.name == "Mapa Usina"){
+        if(cena.name == "Mapa Usina (Sutur)" || cena.name == "Mapa Usina (Odin)"){
             portalAtivo[ (int)Mathf.Round(Random.Range(0,2))].SetActive(true);
         } 
     }
 
     void Update()
     {
-        if(cena.name == "Mapa Usina"){
+        if(cena.name == "Mapa Usina (Sutur)" || cena.name == "Mapa Usina (Odin)"){
             tempoRestante -= Time.deltaTime;
         }
         if(tempoRestante <= 0){
@@ -62,7 +62,7 @@ public class Sistema : MonoBehaviour
         if(Jogador.name == "Sutur(com Arma)"){
             Vida.text = "Vida: " + Jogador.GetComponent<Sutur>().vida.ToString();
         }
-        if(cena.name == "Mapa Usina"){
+        if(cena.name == "Mapa Usina (Sutur)" || cena.name == "Mapa Usina (Odin)"){
             Timer.text = "Tempo restante: " + TimeFormat(tempoRestante);
         }
     }

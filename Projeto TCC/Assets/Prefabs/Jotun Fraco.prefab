@@ -437,6 +437,7 @@ GameObject:
   m_Component:
   - component: {fileID: 523925313076470709}
   - component: {fileID: 3482509340965258428}
+  - component: {fileID: 6006054200516909520}
   m_Layer: 0
   m_Name: Body hurtbox
   m_TagString: Enemy
@@ -473,6 +474,19 @@ CapsuleCollider:
   m_Height: 2.04
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &6006054200516909520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 523925313076470714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c616b677f68c3a4c82867e633af30ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Jotun: {fileID: 829843868560711077}
 --- !u!1 &523925313453721183
 GameObject:
   m_ObjectHideFlags: 0
@@ -644,7 +658,7 @@ Transform:
   - {fileID: 523925311574011391}
   - {fileID: 1205194356}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &6210409881549495653
 Animator:
@@ -682,6 +696,7 @@ MonoBehaviour:
   CanvasBarraVida: {fileID: 523925311574011388}
   ObjetoTextoDano: {fileID: 6586049764277610797, guid: bbd46a700f042684d8f766ba3572b9be, type: 3}
   agente: {fileID: 8869404502002152644}
+  vida: 0
   vidaInicial: 500
   anim: {fileID: 6210409881549495653}
   camadaPlayer:

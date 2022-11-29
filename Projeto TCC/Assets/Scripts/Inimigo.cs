@@ -14,7 +14,7 @@ public class Inimigo : MonoBehaviour
     Text textoDano;
     [SerializeField]NavMeshAgent agente;
     Camera cameraAtiva;
-    int vida;
+    [SerializeField]int vida;
     [SerializeField]int vidaInicial;
     [SerializeField]Animator anim;
     [SerializeField]LayerMask camadaPlayer;
@@ -112,11 +112,9 @@ public class Inimigo : MonoBehaviour
         anim.SetTrigger("Morreu");
     }
 
-    void OnTriggerStay(Collider colisao){
-        if(colisao.gameObject.tag == "Fogo"){
-            danoFogo.quantidadeDano = 1;
-            PerderVida(danoFogo);
+    void OnCollisionEnter(Collision colisao){
+        if(colisao.gameObject.layer == 6){
+            vida -= 250;
         }
     }
-    
 }

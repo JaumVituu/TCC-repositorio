@@ -34,9 +34,16 @@ public class CharacterSelection : MonoBehaviour
         }
         characters[selectedcharacter].enabled = true;
         characternames[selectedcharacter].enabled = true;
+
     }
     public void Comecar(){
         PlayerPrefs.SetInt("selectedcharacter", selectedcharacter);
-        SceneManager.LoadScene("Mapa Usina");
+        if(selectedcharacter == characters.Length-1){
+            SceneManager.LoadScene("Mapa Usina (Sutur)");
+        }
+        else{
+            SceneManager.LoadScene("Mapa Usina (Odin)");
+        }
+        
     }
 }

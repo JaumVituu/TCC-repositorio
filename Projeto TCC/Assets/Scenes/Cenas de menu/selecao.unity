@@ -622,6 +622,7 @@ MonoBehaviour:
   - {fileID: 998694814}
   - {fileID: 1809110569}
   selectedcharacter: 0
+  personagem: 0
 --- !u!114 &680574167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1050,7 +1051,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 911020739}
+      - m_Target: {fileID: 1868511004}
         m_TargetAssemblyTypeName: CharacterSelection, Assembly-CSharp
         m_MethodName: RightButton
         m_Mode: 1
@@ -1119,6 +1120,7 @@ MonoBehaviour:
   - {fileID: 998694814}
   - {fileID: 1809110569}
   selectedcharacter: 0
+  personagem: 0
 --- !u!1 &998694812
 GameObject:
   m_ObjectHideFlags: 0
@@ -1964,6 +1966,7 @@ MonoBehaviour:
   - {fileID: 998694814}
   - {fileID: 1809110569}
   selectedcharacter: 0
+  personagem: 0
 --- !u!1 &2002999604
 GameObject:
   m_ObjectHideFlags: 0
